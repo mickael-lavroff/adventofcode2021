@@ -1,3 +1,5 @@
+. .\Day3\Sort-STNumerical.ps1
+
 $values = Get-Content .\Day3\input_day3.txt
 
 0..11 | % { Set-Variable "bit$_" -Value 0 }
@@ -15,9 +17,9 @@ for ($i = 0; $i -lt $values.Count; $i++) {
     }
 }
 
-$gamma = [System.Convert]::ToInt32((-join (Get-Variable | ? Name -Like "bit*" | select Value).Value), 2)
+$gamma = [System.Convert]::ToInt32(-join (Get-Variable ((Get-Variable | ? Name -Like "bit*").Name | Sort-STNumerical) | select Value).Value, 2)
 
-$gammabin = (-join (Get-Variable | ? Name -Like "bit*" | select Value).Value)
+$gammabin = (-join (Get-Variable ((Get-Variable | ? Name -Like "bit*").Name | Sort-STNumerical) | select Value).Value)
 
 0..11 | % { 
     if ($gammabin.ToCharArray().GetValue($_).ToString() -eq 0) {
@@ -28,6 +30,6 @@ $gammabin = (-join (Get-Variable | ? Name -Like "bit*" | select Value).Value)
     }
 }
 
-$epsilon = [System.Convert]::ToInt32(( -join (Get-Variable | ? Name -Like "bit*" | select Value).Value), 2)
+$epsilon = [System.Convert]::ToInt32(-join (Get-Variable ((Get-Variable | ? Name -Like "bit*").Name | Sort-STNumerical) | select Value).Value, 2)
 
 Write-Output "Result : $($gamma*$epsilon)"
